@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SLM From Scratch — Roadmap Tracker</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, Segoe UI, Arial, sans-serif;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 30px 20px 80px;
+    color: #222;
+    background: #fafafa;
+    line-height: 1.4;
+  }
+  h1 {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .progress-bar-outer {
+    background: #e0e0e0;
+    border-radius: 6px;
+    height: 10px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .progress-bar-inner {
+    background: #2f6f4f;
+    height: 100%;
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+  .progress-label {
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 24px;
+  }
+  .phase {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    padding: 16px 18px;
+  }
+  .phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+  .phase-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .phase-count {
+    font-size: 12px;
+    color: #888;
+  }
+  .phase-output {
+    font-size: 12.5px;
+    color: #555;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px dashed #f0f0f0;
+  }
+  .step:last-child { border-bottom: none; }
+  .step input[type="checkbox"] {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .step-text { flex: 1; }
+  .step-title {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .step-desc {
+    font-size: 12.5px;
+    color: #666;
+    margin-top: 1px;
+  }
+  .step.done .step-title { text-decoration: line-through; color: #999; }
+  .step.done .step-desc { color: #bbb; }
+  .rules {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-top: 20px;
+  }
+  .rules h2 { font-size: 16px; margin-top: 0; }
+  .rules ol { margin: 0; padding-left: 20px; font-size: 13.5px; color: #333; }
+  .rules li { margin-bottom: 4px; }
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<h1>SLM From Scratch — Implementation Roadmap</h1>
+<div class="subtitle">nanoGPT-style build tracker · check off each step as you complete it</div>
+
+<div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar"></div></div>
+<div class="progress-label" id="progressLabel">0 / 84 steps completed (0%)</div>
+
+<!-- PHASE 1 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 1 — Data &amp; Tokenization</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Ready-to-train batches of token IDs</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">1. Project Structure</div><div class="step-desc">Set up folders/files for data, model, training, and inference code.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">2. Dataset Collection</div><div class="step-desc">Gather the raw text corpus you'll train on.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">3. Text Cleaning &amp; Normalization</div><div class="step-desc">Strip noise, fix encoding, standardize casing/whitespace.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">4. Vocabulary Creation</div><div class="step-desc">Build the set of unique tokens the model will recognize.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">5. Tokenizer Implementation</div><div class="step-desc">Write the logic that maps text to vocabulary tokens.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">6. Token Encoding</div><div class="step-desc">Convert raw text into integer token IDs.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">7. Token Decoding</div><div class="step-desc">Convert token IDs back into readable text.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">8. Dataset Preparation</div><div class="step-desc">Turn the full token stream into a structured dataset object.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">9. Train / Validation Split</div><div class="step-desc">Separate data so you can measure generalization during training.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">10. Context Window Generation</div><div class="step-desc">Slice token sequences into fixed-length input/target chunks.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">11. DataLoader &amp; Batching</div><div class="step-desc">Group samples into batches for efficient GPU training.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 2 — Input Representation</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Dense vector representation of every input token</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">12. Token Embedding Layer</div><div class="step-desc">Maps each token ID to a learnable dense vector.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">13. Positional Embedding Layer</div><div class="step-desc">Encodes each token's position in the sequence.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">14. Combine Token + Position Embeddings</div><div class="step-desc">Sum token and positional vectors into one input representation.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">15. Embedding Dropout</div><div class="step-desc">Randomly zero out embedding values during training to regularize.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 3 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 3 — Self Attention</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Single-head self-attention implementation</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">16. Linear Projection Layer</div><div class="step-desc">Projects input embeddings into Q, K, V spaces.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">17. Query Matrix</div><div class="step-desc">Represents what each token is "looking for."</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">18. Key Matrix</div><div class="step-desc">Represents what each token "offers" for matching.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">19. Value Matrix</div><div class="step-desc">Holds the actual content to be aggregated per token.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">20. Attention Score Calculation</div><div class="step-desc">Computes Query · Key similarity between tokens.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">21. Scaling (Scaled Dot Product)</div><div class="step-desc">Divides scores by sqrt(d_k) to stabilize gradients.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">22. Causal Attention Mask</div><div class="step-desc">Prevents tokens from attending to future positions.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">23. Softmax Attention</div><div class="step-desc">Converts masked scores into attention probabilities.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">24. Weighted Sum</div><div class="step-desc">Combines Value vectors using attention weights.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">25. Complete Self-Attention Module</div><div class="step-desc">Assembles all steps above into one reusable class.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 4 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 4 — Multi-Head Attention</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Full Multi-Head Self-Attention</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">26. Multiple Attention Heads</div><div class="step-desc">Split embedding dimension into several parallel attention heads.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">27. Parallel Attention Computation</div><div class="step-desc">Run self-attention independently for each head.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">28. Head Concatenation</div><div class="step-desc">Merge all head outputs back into one vector.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">29. Output Projection</div><div class="step-desc">Linear layer that mixes concatenated head outputs.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">30. Complete Multi-Head Attention Module</div><div class="step-desc">Final reusable multi-head attention class.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 5 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 5 — Feed Forward Network</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Transformer Feed Forward Network</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">31. Feed Forward Expansion Layer</div><div class="step-desc">Projects embeddings into a larger hidden dimension.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">32. GELU Activation</div><div class="step-desc">Non-linear activation applied after expansion.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">33. Projection Layer</div><div class="step-desc">Projects back down to the original embedding dimension.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">34. Feed Forward Module</div><div class="step-desc">Combines expansion, activation, and projection into one block.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 6 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 6 — Normalization &amp; Residuals</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Stable Transformer computations</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">35. Layer Normalization</div><div class="step-desc">Normalizes activations across the feature dimension.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">36. Residual Connection</div><div class="step-desc">Adds a layer's input back to its output to ease gradient flow.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">37. Residual around Attention</div><div class="step-desc">Wraps the attention sublayer with a residual connection.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">38. Residual around Feed Forward</div><div class="step-desc">Wraps the feed forward sublayer with a residual connection.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 7 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 7 — Transformer Block</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: One complete GPT Transformer Block</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">39. Build Complete Transformer Block</div><div class="step-desc">LayerNorm → Multi-Head Attention → Residual → LayerNorm → Feed Forward → Residual, assembled into one module.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 8 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 8 — GPT Model</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Complete GPT Architecture</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">40. Stack Multiple Transformer Blocks</div><div class="step-desc">Chain N transformer blocks sequentially to form the model body.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">41. Final Layer Normalization</div><div class="step-desc">Normalizes output after the last transformer block.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">42. Language Modeling Head (Linear Layer)</div><div class="step-desc">Projects final hidden states to vocabulary-sized logits.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">43. Complete Forward Pass</div><div class="step-desc">Wire embeddings → blocks → norm → head into one forward function.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">44. Weight Initialization</div><div class="step-desc">Set initial weight distributions for stable early training.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 9 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 9 — Training Engine</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Fully Trainable GPT</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">45. Next Token Prediction</div><div class="step-desc">Define the training objective: predict the next token in sequence.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">46. Cross Entropy Loss</div><div class="step-desc">Measures prediction error against true next tokens.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">47. Backpropagation</div><div class="step-desc">Computes gradients of the loss with respect to all weights.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">48. Optimizer (AdamW)</div><div class="step-desc">Updates weights using gradients with weight decay.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">49. Learning Rate Scheduler</div><div class="step-desc">Adjusts learning rate over training (warmup/decay).</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">50. Gradient Clipping</div><div class="step-desc">Caps gradient magnitude to prevent unstable updates.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">51. Training Loop</div><div class="step-desc">Iterates over batches, computes loss, updates weights.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">52. Validation Loop</div><div class="step-desc">Evaluates model on held-out data without updating weights.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">53. Checkpoint Saving</div><div class="step-desc">Persists model/optimizer state to disk periodically.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">54. Resume Training</div><div class="step-desc">Reloads a checkpoint and continues training from that point.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 10 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 10 — Inference Engine</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Complete Text Generation Pipeline</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">55. Load Trained Model</div><div class="step-desc">Restore model weights from a saved checkpoint.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">56. Tokenize Prompt</div><div class="step-desc">Convert user input text into token IDs.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">57. Forward Pass</div><div class="step-desc">Run the prompt through the model to get logits.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">58. Vocabulary Logits</div><div class="step-desc">Raw, unnormalized scores over the vocabulary for the next token.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">59. Softmax</div><div class="step-desc">Converts logits into a probability distribution.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">60. Greedy Decoding</div><div class="step-desc">Always picks the highest-probability next token.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">61. Temperature Sampling</div><div class="step-desc">Adjusts distribution sharpness before sampling.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">62. Top-K Sampling</div><div class="step-desc">Samples only from the K most likely next tokens.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">63. Top-P Sampling</div><div class="step-desc">Samples from the smallest set of tokens whose cumulative probability exceeds P.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">64. Next Token Generation Loop</div><div class="step-desc">Repeats prediction + sampling to generate text token by token.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">65. End-of-Sequence Handling</div><div class="step-desc">Stops generation when an EOS token is produced.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">66. Token Decoding</div><div class="step-desc">Converts generated token IDs back into readable text.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 11 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 11 — Model Evaluation</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Model Performance Evaluation</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">67. Validation Loss</div><div class="step-desc">Track loss on unseen data to check generalization.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">68. Perplexity</div><div class="step-desc">Exponentiated loss; measures how "surprised" the model is by real text.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">69. Sample Generation</div><div class="step-desc">Qualitatively review generated text samples.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">70. Benchmark Inference Speed</div><div class="step-desc">Measure tokens/sec generated at inference time.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">71. Hyperparameter Analysis</div><div class="step-desc">Review effect of learning rate, batch size, depth, etc. on results.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 12 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 12 — Modern GPT Improvements (Version 2)</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Modern GPT Architecture</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">72. Rotary Position Embeddings (RoPE)</div><div class="step-desc">Encodes position by rotating Q/K vectors instead of adding embeddings.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">73. RMSNorm</div><div class="step-desc">A simpler, faster alternative to LayerNorm.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">74. SwiGLU</div><div class="step-desc">Gated activation function used in modern feed forward layers.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">75. Grouped Query Attention (GQA)</div><div class="step-desc">Shares Key/Value heads across multiple Query heads to save memory.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">76. KV Cache</div><div class="step-desc">Caches past Key/Value tensors to speed up autoregressive generation.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">77. Flash Attention</div><div class="step-desc">Memory-efficient, fused attention computation.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">78. Mixed Precision Training</div><div class="step-desc">Uses lower-precision floats to speed up training and cut memory use.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">79. Gradient Checkpointing</div><div class="step-desc">Trades compute for memory by recomputing activations during backprop.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 13 -->
+<div class="phase">
+  <div class="phase-header"><span class="phase-title">Phase 13 — Parameter Efficient Fine-Tuning</span><span class="phase-count"></span></div>
+  <div class="phase-output">Output: Fine-tunable GPT</div>
+  <div class="steps">
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">80. LoRA</div><div class="step-desc">Trains small low-rank adapter matrices instead of full weights.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">81. QLoRA</div><div class="step-desc">Combines LoRA with quantized base model weights to save memory.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">82. DoRA</div><div class="step-desc">Decomposes weights into magnitude and direction for improved LoRA training.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">83. Adapter Loading</div><div class="step-desc">Loads trained adapters on top of the frozen base model.</div></div></div>
+    <div class="step"><input type="checkbox"><div class="step-text"><div class="step-title">84. Instruction Fine-Tuning</div><div class="step-desc">Fine-tunes the model on instruction/response pairs.</div></div></div>
+  </div>
+</div>
+
+<div class="rules">
+  <h2>Implementation Rules</h2>
+  <ol>
+    <li>Never copy code from nanoGPT before implementing it yourself.</li>
+    <li>Implement every module completely from scratch.</li>
+    <li>Unit test every module independently.</li>
+    <li>Integrate only after the module passes testing.</li>
+    <li>Compare your implementation with nanoGPT only after your own version works.</li>
+    <li>Refactor and optimize after comparison.</li>
+    <li>Commit each completed module to GitHub with documentation.</li>
+    <li>Never move to the next phase until the current phase is fully working.</li>
+    <li>Keep every module independent and reusable.</li>
+    <li>The final goal is a fully working GPT-style SLM built entirely from first principles.</li>
+  </ol>
+</div>
+
+<footer>Progress is tracked in-browser for this session only. Keep this file open while you work, or re-check items after reopening it.</footer>
+
+<script>
+  const checkboxes = document.querySelectorAll('.step input[type="checkbox"]');
+  const total = checkboxes.length;
+  const progressBar = document.getElementById('progressBar');
+  const progressLabel = document.getElementById('progressLabel');
+
+  function updateProgress() {
+    let done = 0;
+    checkboxes.forEach(cb => { if (cb.checked) done++; });
+    const pct = Math.round((done / total) * 100);
+    progressBar.style.width = pct + '%';
+    progressLabel.textContent = done + ' / ' + total + ' steps completed (' + pct + '%)';
+  }
+
+  function updatePhaseCounts() {
+    document.querySelectorAll('.phase').forEach(phase => {
+      const boxes = phase.querySelectorAll('.step input[type="checkbox"]');
+      if (boxes.length === 0) return;
+      let done = 0;
+      boxes.forEach(cb => { if (cb.checked) done++; });
+      const countEl = phase.querySelector('.phase-count');
+      if (countEl) countEl.textContent = done + ' / ' + boxes.length;
+    });
+  }
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      cb.closest('.step').classList.toggle('done', cb.checked);
+      updateProgress();
+      updatePhaseCounts();
+    });
+  });
+
+  updateProgress();
+  updatePhaseCounts();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+# Local dataset and checkpoint directories
+dataset/
+checkpoints/
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE files
+.vscode/
+.idea/
+.DS_Store
+
+# PyTest / testing cache
+.pytest_cache/
+.coverage
+htmlcov/

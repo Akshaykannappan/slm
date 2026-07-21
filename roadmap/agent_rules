@@ -1,0 +1,41 @@
+# Agent Instructions — PROGRESS.md & README.md Maintenance
+
+## Source of Truth
+The file `slm_roadmap_tracker.html` (already in the project) is the ONLY source
+of truth for the roadmap. It contains 13 Phases and 84 Steps, in a fixed order.
+
+NEVER invent, merge, rename, reorder, or collapse phases/steps.
+NEVER mix steps from different phases together (e.g. do not combine basic
+attention with RoPE/GQA/SwiGLU — those are separate, later phases on purpose).
+If you are unsure of a phase name or step number, re-read
+`slm_roadmap_tracker.html` before writing anything.
+
+## PROGRESS.md — Rules
+1. Must mirror all 13 phases and all 84 steps from `slm_roadmap_tracker.html`,
+   in the exact same order, with the exact same step numbers and titles.
+2. Each step gets:
+   - A checkbox: `[ ]` not started, `[~]` in progress, `[x]` done
+   - The folder it maps to (link format: `[folder/](file:///full/path)`)
+3. At the very top of the file, maintain a line:
+   `**Last Updated:** YYYY-MM-DD HH:MM`
+   Update this timestamp EVERY time any change is made to this file — no
+   exceptions, even for a single checkbox change.
+4. Do not add extra commentary, new sections, or reworded step titles.
+   This file is a status mirror, not a redesign.
+5. After every coding session, update only the steps that were actually
+   completed or started that session. Do not mark anything done unless it
+   passes its unit tests (per project rules).
+
+## README.md — Rules
+1. Maintain a section titled `## Progress Summary` near the top, containing:
+   - Overall completion: `X / 84 steps complete (Y%)`
+   - Current phase and step being worked on
+   - A one-line pointer to `PROGRESS.md` for full detail
+2. Update this section every time PROGRESS.md is updated — keep them in sync.
+3. Do not duplicate the full step-by-step list in README.md — that belongs
+   only in PROGRESS.md. README.md stays high-level.
+
+## When in Doubt
+If a requested change would violate the roadmap order (e.g. jumping to a
+Phase 12 concept while Phase 2 is incomplete), stop and flag it instead of
+silently doing it.
