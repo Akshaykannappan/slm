@@ -1,10 +1,10 @@
-**Last Updated:** 2026-07-20 14:45
+**Last Updated:** 2026-07-21 11:30
 
 # SLM Implementation Roadmap
 
 ## Phase 1 — Data & Tokenization
 - [x] 1. Project Structure — [SLM/](file:///Users/akshay/Documents/SLM)
-- [ ] 2. Dataset Collection — [dataset/](file:///Users/akshay/Documents/SLM/dataset)
+- [x] 2. Dataset Collection — [dataset/](file:///Users/akshay/Documents/SLM/dataset)
 - [ ] 3. Text Cleaning & Normalization — [data/](file:///Users/akshay/Documents/SLM/data)
 - [ ] 4. Vocabulary Creation — [data/](file:///Users/akshay/Documents/SLM/data)
 - [ ] 5. Tokenizer Implementation — [data/](file:///Users/akshay/Documents/SLM/data)

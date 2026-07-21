@@ -4,8 +4,8 @@ A clean, modular repository for training and serving a custom transformer-based 
 
 ## Progress Summary
 
-- **Overall Completion:** 1 / 84 steps complete (1.19%)
-- **Current Step:** Phase 1 — Data & Tokenization: Step 2. Dataset Collection
+- **Overall Completion:** 2 / 84 steps complete (2.38%)
+- **Current Step:** Phase 1 — Data & Tokenization: Step 3. Text Cleaning & Normalization
 - For the full step-by-step roadmap and details, see [PROGRESS.md](file:///Users/akshay/Documents/SLM/PROGRESS.md).
 
 ## Project Structure
@@ -37,10 +37,18 @@ Clone the repository and install the required dependencies:
 pip install -r requirements.txt
 ```
 
+### Download Dataset
+
+Fetch the raw dataset (Shakespeare):
+
+```bash
+python data/download_dataset.py
+```
+
 ### Next Steps
 
-1. Configure hyperparameters in `configs/`.
-2. Implement data preprocessing in `data/` and put raw files in `dataset/`.
+1. Implement data cleaning & tokenization in `data/`.
+2. Configure hyperparameters in `configs/`.
 3. Build the transformer architecture inside `models/`.
 4. Run training script from `training/`.
 5. Run evaluations and inference from `inference/`.
